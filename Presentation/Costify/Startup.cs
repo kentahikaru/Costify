@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Infrastructure.Persistance;
+using MediatR;
 
 namespace Costify
 {
@@ -30,6 +32,7 @@ namespace Costify
             // services.AddDbContext<CostifyDbContext>(options =>
             // options.UseSqlServer(Configuration.GetConnectionString("AzureCostify")));
             services.AddPersistance(Configuration);
+            services.AddMediatR(Assembly.GetExecutingAssembly());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

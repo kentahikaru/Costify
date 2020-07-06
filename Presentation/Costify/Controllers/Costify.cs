@@ -2,27 +2,35 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using Core.Application.Interfaces;
 using Core.Domain.Entities;
+using Core.Application.Features.CostifyFeatures.Commands;
+using Core.Application.Features.CostifyFeatures.Queries;
 
 namespace Costify.Controllers
 {
     public class Costify : Controller
     {
-        private readonly ICostifyDbContext _context;
+        private IMediator _mediator;
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        //private readonly ICostifyDbContext _context;
 
-        public Costify(ICostifyDbContext context)
-        {
-            _context = context;
-        }
+        // public Costify(ICostifyDbContext context)
+        // {
+        //     _context = context;
+        // }
 
         // GET: Costify
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cost.ToListAsync());
+            //return View(await _context.Cost.ToListAsync());
+            return View(await Mediator.Send(new GetAllCostsQuery()));
         }
 
         // GET: Costify/Details/5
@@ -33,8 +41,8 @@ namespace Costify.Controllers
                 return NotFound();
             }
 
-            var cost = await _context.Cost
-                .FirstOrDefaultAsync(m => m.Id == id);
+            //var cost = await _context.Cost.FirstOrDefaultAsync(m => m.Id == id);
+            var cost = await Mediator.Send(new GetCostByIdQuery() { Id = (Guid)id });
             if (cost == null)
             {
                 return NotFound();
@@ -58,9 +66,10 @@ namespace Costify.Controllers
         {
             if (ModelState.IsValid)
             {
-                cost.Id = Guid.NewGuid();
-                _context.Add(cost);
-                await _context.SaveChanges();
+                // cost.Id = Guid.NewGuid();
+                // _context.Add(cost);
+                // await _context.SaveChanges();
+                await Mediator.Send(new CreateCostCommand() { cost = cost });
                 return RedirectToAction(nameof(Index));
             }
             return View(cost);
@@ -74,7 +83,8 @@ namespace Costify.Controllers
                 return NotFound();
             }
 
-            var cost = await _context.Cost.FindAsync(id);
+            //var cost = await _context.Cost.FindAsync(id);
+            var cost = await Mediator.Send(new GetCostByIdQuery() { Id = (Guid)id });
             if (cost == null)
             {
                 return NotFound();
@@ -96,22 +106,24 @@ namespace Costify.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(cost);
-                    await _context.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CostExists(cost.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await Mediator.Send(new UpdateCostCommand(){cost = cost});
+                // try
+                // {
+                //     // _context.Update(cost);
+                //     // await _context.SaveChanges();
+                //     await Mediator.Send(new UpdateCostCommand(){cost = cost});
+                // }
+                // catch (DbUpdateConcurrencyException)
+                // {
+                //     if (!CostExists(cost.Id))
+                //     {
+                //         return NotFound();
+                //     }
+                //     else
+                //     {
+                //         throw;
+                //     }
+                // }
                 return RedirectToAction(nameof(Index));
             }
             return View(cost);
@@ -125,8 +137,8 @@ namespace Costify.Controllers
                 return NotFound();
             }
 
-            var cost = await _context.Cost
-                .FirstOrDefaultAsync(m => m.Id == id);
+            //var cost = await _context.Cost.FirstOrDefaultAsync(m => m.Id == id);
+            var cost = await Mediator.Send(new GetCostByIdQuery() { Id = (Guid)id });
             if (cost == null)
             {
                 return NotFound();
@@ -140,15 +152,16 @@ namespace Costify.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var cost = await _context.Cost.FindAsync(id);
-            _context.Cost.Remove(cost);
-            await _context.SaveChanges();
+            // var cost = await _context.Cost.FindAsync(id);
+            // _context.Cost.Remove(cost);
+            // await _context.SaveChanges();
+            await Mediator.Send(new DeleteCostCommand() {Id = id });
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CostExists(Guid id)
-        {
-            return _context.Cost.Any(e => e.Id == id);
-        }
+        // private bool CostExists(Guid id)
+        // {
+        //     return _context.Cost.Any(e => e.Id == id);
+        // }
     }
 }
