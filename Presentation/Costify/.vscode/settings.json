@@ -1,5 +1,0 @@
-{
-    "appService.preDeployTask": "publish-release",
-    "appService.deploySubpath": "bin/Release/netcoreapp3.1/publish",
-    "appService.defaultWebAppToDeploy": "/subscriptions/a538d553-a6e2-46cb-9d63-c752b300bbe9/resourceGroups/Costify/providers/Microsoft.Web/sites/costify"
-}
