@@ -1,6 +1,7 @@
 namespace Core.Domain.Entities
 {
     using System;
+    
     public class Cost
     {
         public Guid Id { get; set; }
@@ -9,5 +10,6 @@ namespace Core.Domain.Entities
         public double Price { get; set; }
 
         public Category Category { get; set; }
+
     }
 }

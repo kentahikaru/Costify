@@ -52,8 +52,12 @@ namespace Costify.Controllers
         }
 
         // GET: Costify/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            IEnumerable<Category> categories = await Mediator.Send(new GetAllCategoriesQuery());
+
+            ViewBag.ListOfCategories = new SelectList(categories, "Id","CategoryName");
+
             return View();
         }
 
