@@ -21,7 +21,7 @@ namespace Core.Application.Features.CostifyFeatures.Commands
             public async Task<int> Handle(CreateCategoryCommand command, CancellationToken cancellationToken)
             {
                 command.category.Id = Guid.NewGuid();
-                _context.Add(command.category);
+                _context.Category.Add(command.category);
                 return await _context.SaveChanges();
             }
         }

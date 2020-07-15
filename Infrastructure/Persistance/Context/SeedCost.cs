@@ -2,7 +2,10 @@ namespace Infrastructure.Persistance
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Microsoft.Extensions.Logging;
     using Core.Application.Features.CostifyFeatures.Commands;
+    using Core.Application.Features.CostifyFeatures.Queries;
     using Core.Application.Interfaces;
     using Core.Domain.Entities;
     using MediatR;
@@ -10,12 +13,20 @@ namespace Infrastructure.Persistance
     public class SeedCost
     {
         private IMediator _mediator;
+
         public SeedCost(IMediator mediator)
         {
             _mediator = mediator;
         }
-        public void Seed()
+        public async Task Seed()
         {
+            var cats = await _mediator.Send(new GetAllCategoriesQuery());
+            //if(cats.GetAwaiter().GetResult() == null)
+            if(cats == null)
+            {
+                return;
+            }
+
             List<Category> categories = new List<Category>() {
                 new Category() {CategoryName = "Eating out"},
                 new Category() {CategoryName = "Electronics"},
@@ -27,8 +38,9 @@ namespace Infrastructure.Persistance
 
             foreach(Category category in categories)
             {
-                _mediator.Send(new CreateCategoryCommand() {category = category} );
+                await _mediator.Send(new CreateCategoryCommand() {category = category} );
             }
+           
         }
 
     }
