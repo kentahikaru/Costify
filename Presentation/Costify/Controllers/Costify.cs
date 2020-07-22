@@ -12,6 +12,7 @@ using Core.Application.Interfaces;
 using Core.Domain.Entities;
 using Core.Application.Features.CostifyFeatures.Commands;
 using Core.Application.Features.CostifyFeatures.Queries;
+using Presentation.Costify.ViewModels;
 
 namespace Costify.Controllers
 {
@@ -55,10 +56,11 @@ namespace Costify.Controllers
         public async Task<IActionResult> Create()
         {
             IEnumerable<Category> categories = await Mediator.Send(new GetAllCategoriesQuery());
+            CreateViewModel createViewModel = new CreateViewModel();
 
-            ViewBag.ListOfCategories = new SelectList(categories, "Id","CategoryName");
+            createViewModel.ListOfCategories = new SelectList(categories, "Id","CategoryName");
 
-            return View();
+            return View(createViewModel);
         }
 
         // POST: Costify/Create

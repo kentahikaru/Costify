@@ -21,8 +21,8 @@ namespace Infrastructure.Persistance
         public async Task Seed()
         {
             var cats = await _mediator.Send(new GetAllCategoriesQuery());
-            //if(cats.GetAwaiter().GetResult() == null)
-            if(cats == null)
+            var enumer = cats.GetEnumerator();
+            if(enumer.MoveNext() == true)
             {
                 return;
             }

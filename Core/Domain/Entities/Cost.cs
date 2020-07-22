@@ -10,6 +10,5 @@ namespace Core.Domain.Entities
         public double Price { get; set; }
 
         public Category Category { get; set; }
-
     }
 }
