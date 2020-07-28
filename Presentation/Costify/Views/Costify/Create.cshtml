@@ -1,4 +1,4 @@
-@model Presentation.Costify.ViewModels.CreateViewModel
+@model Presentation.Costify.ViewModels.Costify.CreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -23,9 +23,9 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-            <label asp-for="CategoryName" class="control-label"></label>           
-            @Html.DropDownListFor(m => m.CategoryName, Model.ListOfCategories, "Select Category",new { @class = "form-control" })
-            <span asp-validation-for="Price" class="text-danger"></span>
+            <label asp-for="CategoryId" class="control-label"></label>           
+            @Html.DropDownListFor(m => m.CategoryId, Model.ListOfCategories, "Select Category",new { @class = "form-control" })
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

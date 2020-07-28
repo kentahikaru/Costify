@@ -21,7 +21,7 @@ namespace Core.Application.Features.CostifyFeatures.Queries
 
             public async Task<IEnumerable<Cost>> Handle(GetAllCostsQuery query , CancellationToken cancellationTOken)
             {
-                var listCost = await _context.Cost.ToListAsync();
+                var listCost = await _context.Cost.Include(x => x.Category).ToListAsync();
                 if(listCost == null)
                 {
                     return null;

@@ -12,7 +12,7 @@ using Core.Application.Interfaces;
 using Core.Domain.Entities;
 using Core.Application.Features.CostifyFeatures.Commands;
 using Core.Application.Features.CostifyFeatures.Queries;
-using Presentation.Costify.ViewModels;
+using Presentation.Costify.ViewModels.Costify;
 
 namespace Costify.Controllers
 {
@@ -20,7 +20,6 @@ namespace Costify.Controllers
     {
         private IMediator _mediator;
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
-        //private readonly ICostifyDbContext _context;
 
         // public Costify(ICostifyDbContext context)
         // {
@@ -30,8 +29,21 @@ namespace Costify.Controllers
         // GET: Costify
         public async Task<IActionResult> Index()
         {
-            //return View(await _context.Cost.ToListAsync());
-            return View(await Mediator.Send(new GetAllCostsQuery()));
+            var costs = await Mediator.Send(new GetAllCostsQuery());
+            List<CostifyViewModel> listOfCosts = new List<CostifyViewModel>();
+
+            foreach(Cost cost in costs)
+            {
+                listOfCosts.Add(new CostifyViewModel() {
+                    Id = cost.Id,
+                    Date = cost.Date,
+                    Price = cost.Price,
+                    CategoryId = cost.Category.Id,
+                    CategoryName = cost.Category.CategoryName
+                });
+            }
+
+            return View(listOfCosts.ToArray());
         }
 
         // GET: Costify/Details/5
@@ -42,21 +54,27 @@ namespace Costify.Controllers
                 return NotFound();
             }
 
-            //var cost = await _context.Cost.FirstOrDefaultAsync(m => m.Id == id);
             var cost = await Mediator.Send(new GetCostByIdQuery() { Id = (Guid)id });
             if (cost == null)
             {
                 return NotFound();
             }
 
-            return View(cost);
+            CostifyViewModel costifyViewModel = new CostifyViewModel() {
+                Id = cost.Id,
+                Date = cost.Date,
+                Price = cost.Price,
+                CategoryId = cost.Category.Id,
+                CategoryName = cost.Category.CategoryName
+            };
+            return View(costifyViewModel);
         }
 
         // GET: Costify/Create
         public async Task<IActionResult> Create()
         {
             IEnumerable<Category> categories = await Mediator.Send(new GetAllCategoriesQuery());
-            CreateViewModel createViewModel = new CreateViewModel();
+            CreateViewModel createViewModel = new CreateViewModel() { Date = DateTime.Now };
 
             createViewModel.ListOfCategories = new SelectList(categories, "Id","CategoryName");
 
@@ -68,17 +86,21 @@ namespace Costify.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,Price")] Cost cost)
+        public async Task<IActionResult> Create([Bind("Date,Price,CategoryId")] CreateViewModel create)
         {
             if (ModelState.IsValid)
             {
-                // cost.Id = Guid.NewGuid();
-                // _context.Add(cost);
-                // await _context.SaveChanges();
-                await Mediator.Send(new CreateCostCommand() { cost = cost });
+                Cost cost = new Cost() {Date = create.Date, Price = create.Price};
+                cost.Category = await Mediator.Send(new GetCategoryByIdQuery() {CategoryId = Guid.Parse(create.CategoryId)});
+
+                await Mediator.Send(new CreateCostCommand() { cost = cost  });
                 return RedirectToAction(nameof(Index));
             }
-            return View(cost);
+
+            IEnumerable<Category> categories = await Mediator.Send(new GetAllCategoriesQuery());
+            create.ListOfCategories = new SelectList(categories, "Id","CategoryName");
+
+            return View(create);
         }
 
         // GET: Costify/Edit/5
@@ -89,7 +111,6 @@ namespace Costify.Controllers
                 return NotFound();
             }
 
-            //var cost = await _context.Cost.FindAsync(id);
             var cost = await Mediator.Send(new GetCostByIdQuery() { Id = (Guid)id });
             if (cost == null)
             {
@@ -113,23 +134,6 @@ namespace Costify.Controllers
             if (ModelState.IsValid)
             {
                 await Mediator.Send(new UpdateCostCommand(){cost = cost});
-                // try
-                // {
-                //     // _context.Update(cost);
-                //     // await _context.SaveChanges();
-                //     await Mediator.Send(new UpdateCostCommand(){cost = cost});
-                // }
-                // catch (DbUpdateConcurrencyException)
-                // {
-                //     if (!CostExists(cost.Id))
-                //     {
-                //         return NotFound();
-                //     }
-                //     else
-                //     {
-                //         throw;
-                //     }
-                // }
                 return RedirectToAction(nameof(Index));
             }
             return View(cost);
@@ -143,14 +147,21 @@ namespace Costify.Controllers
                 return NotFound();
             }
 
-            //var cost = await _context.Cost.FirstOrDefaultAsync(m => m.Id == id);
             var cost = await Mediator.Send(new GetCostByIdQuery() { Id = (Guid)id });
             if (cost == null)
             {
                 return NotFound();
             }
 
-            return View(cost);
+            CostifyViewModel costifyViewMode = new CostifyViewModel() {
+                Id = cost.Id,
+                Date = cost.Date,
+                Price = cost.Price,
+                CategoryId = cost.Category.Id,
+                CategoryName = cost.Category.CategoryName
+            };
+
+            return View(costifyViewMode);
         }
 
         // POST: Costify/Delete/5

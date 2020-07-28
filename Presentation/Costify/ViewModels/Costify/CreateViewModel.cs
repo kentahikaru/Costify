@@ -1,8 +1,9 @@
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Presentation.Costify.ViewModels
+namespace Presentation.Costify.ViewModels.Costify
 {
     public class CreateViewModel
     {
@@ -10,9 +11,13 @@ namespace Presentation.Costify.ViewModels
         public SelectList ListOfCategories { get; set; }
 
         // Out
+        [Required]
+        [DataType(DataType.Date)]
         public DateTime Date { get; set; }
+        [Required]
         public double Price { get; set; }
         [DisplayName("Category")]
-        public string CategoryName { get; set; }
+        [Required]
+        public string CategoryId { get; set; }
     }
 }

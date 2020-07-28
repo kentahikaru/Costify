@@ -23,7 +23,7 @@ namespace Core.Application.Features.CostifyFeatures.Queries
 
             public async Task<Cost> Handle(GetCostByIdQuery query , CancellationToken cancellationTOken)
             {
-                var cost = await _context.Cost.FirstOrDefaultAsync(m => m.Id == query.Id);
+                var cost = await _context.Cost.Include(x => x.Category).FirstOrDefaultAsync(m => m.Id == query.Id);
                 if(cost == null)
                 {
                     return null;
