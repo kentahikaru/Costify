@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Core.Application;
 using Core.Application.Interfaces;
+using Infrastructure.Persistance.Repositories;
 
 namespace Infrastructure.Persistance
 {
@@ -13,6 +14,9 @@ namespace Infrastructure.Persistance
             services.AddDbContext<CostifyDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("AzureCostify")));
             services.AddScoped<ICostifyDbContext>(provider => provider.GetService<CostifyDbContext>());
+
+            services.AddTransient(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+            services.AddTransient<ICostRepository,CostRepository>();
         }
     }
 }

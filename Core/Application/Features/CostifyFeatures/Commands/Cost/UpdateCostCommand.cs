@@ -31,7 +31,7 @@ namespace Core.Application.Features.CostifyFeatures.Commands
                 cost.Category = command.cost.Category;
                 cost.Date = command.cost.Date;
 
-                return await _context.SaveChanges();
+                return await _context.MySaveChangesAsync();
             }
         }
     }

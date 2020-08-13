@@ -29,7 +29,7 @@ namespace Core.Application.Features.CostifyFeatures.Commands
 
                _context.Cost.Remove(cost);
 
-                return await _context.SaveChanges();
+                return await _context.MySaveChangesAsync();
             }
         }
     }

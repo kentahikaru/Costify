@@ -22,7 +22,7 @@ namespace Core.Application.Features.CostifyFeatures.Commands
             {
                 command.cost.Id = Guid.NewGuid();
                 _context.Add(command.cost);
-                return await _context.SaveChanges();
+                return await _context.MySaveChangesAsync();
                 //return command.cost.Id;
             }
         }

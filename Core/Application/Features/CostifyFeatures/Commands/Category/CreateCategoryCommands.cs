@@ -22,7 +22,7 @@ namespace Core.Application.Features.CostifyFeatures.Commands
             {
                 command.category.Id = Guid.NewGuid();
                 _context.Category.Add(command.category);
-                return await _context.SaveChanges();
+                return await _context.MySaveChangesAsync();
             }
         }
     }

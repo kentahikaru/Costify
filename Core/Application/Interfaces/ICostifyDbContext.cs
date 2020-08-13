@@ -10,7 +10,7 @@ namespace Core.Application.Interfaces
         DbSet<Cost> Cost { get; set; }
         DbSet<Category> Category { get; set; }
 
-        Task<int> SaveChanges();
+        Task<int> MySaveChangesAsync();
 
         void Add(Object obj);
         void Update(Object obj);

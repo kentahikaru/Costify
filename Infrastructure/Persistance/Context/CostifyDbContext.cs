@@ -15,7 +15,7 @@ namespace Infrastructure.Persistance
         public DbSet<Cost> Cost { get; set; }
         public DbSet<Category> Category { get; set; }
 
-        public async Task<int> SaveChanges()
+        public async Task<int> MySaveChangesAsync()
         {
             return await base.SaveChangesAsync();
         }
