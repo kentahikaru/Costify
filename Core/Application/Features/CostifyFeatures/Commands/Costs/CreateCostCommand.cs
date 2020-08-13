@@ -5,7 +5,7 @@ using MediatR;
 using Core.Application.Interfaces;
 using Core.Domain.Entities;
 
-namespace Core.Application.Features.CostifyFeatures.Commands
+namespace Core.Application.Features.CostifyFeatures.Commands.Costs
 {
     public  class CreateCostCommand : IRequest<int>
     {

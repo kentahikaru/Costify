@@ -8,7 +8,7 @@ using MediatR;
 using Core.Application.Interfaces;
 using Core.Domain.Entities;
 
-namespace Core.Application.Features.CostifyFeatures.Queries
+namespace Core.Application.Features.CostifyFeatures.Queries.Categories
 {
     public class GetCategoryByIdQuery : IRequest<Category>
     {

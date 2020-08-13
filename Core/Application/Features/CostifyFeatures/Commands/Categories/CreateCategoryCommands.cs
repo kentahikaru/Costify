@@ -5,7 +5,7 @@ using MediatR;
 using Core.Application.Interfaces;
 using Core.Domain.Entities;
 
-namespace Core.Application.Features.CostifyFeatures.Commands
+namespace Core.Application.Features.CostifyFeatures.Commands.Categories
 {
     public  class CreateCategoryCommand : IRequest<int>
     {

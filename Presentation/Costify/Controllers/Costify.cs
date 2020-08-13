@@ -10,8 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using Core.Application.Interfaces;
 using Core.Domain.Entities;
-using Core.Application.Features.CostifyFeatures.Commands;
-using Core.Application.Features.CostifyFeatures.Queries;
+using Core.Application.Features.CostifyFeatures.Commands.Costs;
+using Core.Application.Features.CostifyFeatures.Queries.Costs;
+using Core.Application.Features.CostifyFeatures.Queries.Categories;
+
 using Presentation.Costify.ViewModels.Costify;
 
 namespace Costify.Controllers
