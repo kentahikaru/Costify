@@ -12,23 +12,17 @@ namespace Core.Application.Features.CostifyFeatures.Commands.Costs
         public Guid Id { get;set; }
         public class DeleteCostCommandHandler : IRequestHandler<DeleteCostCommand, int>
         {
-            ICostifyDbContext _context;
-            public DeleteCostCommandHandler(ICostifyDbContext context)
+            ICostRepository _repository;
+            public DeleteCostCommandHandler(ICostRepository repository)
             {
-                _context = context;
+                _repository = repository;
             }
 
             public async Task<int> Handle(DeleteCostCommand command, CancellationToken cancellationToken)
             {
-                var cost = _context.Cost.Where(a => a.Id == command.Id).FirstOrDefault();
-                if(cost == null)
-                {
-                    return default;
-                }
+                _repository.Delete(command.Id);
+                return await _repository.SaveChangesAsync();
 
-               _context.Cost.Remove(cost);
-
-                return await _context.MySaveChangesAsync();
             }
         }
     }

@@ -50,9 +50,6 @@ namespace Infrastructure.Persistance.Repositories
             {
                 // TODO: log
             }
-
-            
- 
         }
     }
 }

@@ -13,25 +13,16 @@ namespace Core.Application.Features.CostifyFeatures.Commands.Costs
         public Cost cost { get;set; }
         public class UpdateCostCommandHandler : IRequestHandler<UpdateCostCommand, int>
         {
-            ICostifyDbContext _context;
-            public UpdateCostCommandHandler(ICostifyDbContext context)
+            ICostRepository _repository;
+            public UpdateCostCommandHandler(ICostRepository repository)
             {
-                _context = context;
+                _repository = repository;
             }
 
             public async Task<int> Handle(UpdateCostCommand command, CancellationToken cancellationToken)
             {
-                var cost = _context.Cost.Where(a => a.Id == command.cost.Id).FirstOrDefault();
-                if(cost == null)
-                {
-                    return default;
-                }
-
-                cost.Price = command.cost.Price;
-                cost.Category = command.cost.Category;
-                cost.Date = command.cost.Date;
-
-                return await _context.MySaveChangesAsync();
+                _repository.Update(command.cost);
+                return await _repository.SaveChangesAsync();
             }
         }
     }

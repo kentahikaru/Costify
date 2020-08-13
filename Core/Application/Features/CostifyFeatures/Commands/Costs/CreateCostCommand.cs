@@ -12,18 +12,19 @@ namespace Core.Application.Features.CostifyFeatures.Commands.Costs
         public Cost cost { get;set; }
         public class CreateCostCommandHandler : IRequestHandler<CreateCostCommand, int>
         {
-            ICostifyDbContext _context;
-            public CreateCostCommandHandler(ICostifyDbContext context)
+            //ICostifyDbContext _context;
+            ICostRepository _repository;
+            public CreateCostCommandHandler(ICostRepository repository)
             {
-                _context = context;
+                //_context = context;
+                _repository = repository;
             }
 
             public async Task<int> Handle(CreateCostCommand command, CancellationToken cancellationToken)
             {
                 command.cost.Id = Guid.NewGuid();
-                _context.Add(command.cost);
-                return await _context.MySaveChangesAsync();
-                //return command.cost.Id;
+                _repository.Add(command.cost);
+                return await _repository.SaveChangesAsync();
             }
         }
     }

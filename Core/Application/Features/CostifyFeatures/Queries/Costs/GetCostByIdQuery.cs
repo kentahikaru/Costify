@@ -15,15 +15,15 @@ namespace Core.Application.Features.CostifyFeatures.Queries.Costs
         public Guid Id { get; set; }
         public class GetCostByIdQueryHandler : IRequestHandler<GetCostByIdQuery, Cost>
         {
-            private readonly ICostifyDbContext _context;
-            public GetCostByIdQueryHandler(ICostifyDbContext context)
+            private readonly ICostRepository _repository;
+            public GetCostByIdQueryHandler(ICostRepository repository)
             {
-                _context = context;
+                _repository = repository;
             }
 
             public async Task<Cost> Handle(GetCostByIdQuery query , CancellationToken cancellationTOken)
             {
-                var cost = await _context.Cost.Include(x => x.Category).FirstOrDefaultAsync(m => m.Id == query.Id);
+                var cost = await _repository.GetByIdAsync(query.Id);
                 if(cost == null)
                 {
                     return null;
