@@ -17,6 +17,7 @@ namespace Infrastructure.Persistance
 
             services.AddTransient(typeof(IGenericRepository<>),typeof(GenericRepository<>));
             services.AddTransient<ICostRepository,CostRepository>();
+            services.AddTransient<ICategoryRepository,CategoryReposoitory>();
         }
     }
 }

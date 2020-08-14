@@ -13,20 +13,21 @@ namespace Core.Application.Features.CostifyFeatures.Queries.Categories
     {
         public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuery, IEnumerable<Category>>
         {
-            private readonly ICostifyDbContext _context;
-            public GetAllCategoriesQueryHandler(ICostifyDbContext context)
+            private readonly ICategoryRepository _repository;
+            public GetAllCategoriesQueryHandler(ICategoryRepository repository)
             {
-                _context = context;
+                _repository = repository;
             }
 
             public async Task<IEnumerable<Category>> Handle(GetAllCategoriesQuery query , CancellationToken cancellationTOken)
             {
-                var listCategories = await _context.Category.ToListAsync();
+                
+                var listCategories = await _repository.GetAllAsync();
                 if(listCategories == null)
                 {
                     return null;
                 }
-                return listCategories.AsReadOnly();
+                return listCategories;
             }
         }
     }

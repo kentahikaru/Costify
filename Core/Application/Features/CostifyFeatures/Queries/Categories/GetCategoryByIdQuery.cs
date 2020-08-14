@@ -15,15 +15,15 @@ namespace Core.Application.Features.CostifyFeatures.Queries.Categories
         public Guid CategoryId { get; set; }
         public class GetCategoryByIdQueryHandler : IRequestHandler<GetCategoryByIdQuery, Category>
         {
-            private readonly ICostifyDbContext _context;
-            public GetCategoryByIdQueryHandler(ICostifyDbContext context)
+            private readonly ICategoryRepository _repository;
+            public GetCategoryByIdQueryHandler(ICategoryRepository repository)
             {
-                _context = context;
+                _repository = repository;
             }
 
             public async Task<Category> Handle(GetCategoryByIdQuery query , CancellationToken cancellationTOken)
             {
-                var category = await _context.Category.FirstOrDefaultAsync(x => x.Id == query.CategoryId);
+                var category = await _repository.GetByIdAsync(query.CategoryId);
                 if(category == null)
                 {
                     return null;
