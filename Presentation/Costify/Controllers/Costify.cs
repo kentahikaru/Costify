@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MediatR;
 using Core.Application.Interfaces;
 using Core.Domain.Entities;
@@ -22,11 +23,12 @@ namespace Costify.Controllers
     {
         private IMediator _mediator;
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        private ILogger Logger;
 
-        // public Costify(ICostifyDbContext context)
-        // {
-        //     _context = context;
-        // }
+        public Costify(ILogger<Costify> logger)
+        {
+            Logger = logger;
+        }
 
         // GET: Costify
         public async Task<IActionResult> Index()
@@ -45,6 +47,7 @@ namespace Costify.Controllers
                 });
             }
 
+            Logger.LogInformation("Index is prepared.");
             return View(listOfCosts.ToArray());
         }
 
