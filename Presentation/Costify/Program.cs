@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging.AzureAppServices;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Persistance;
 using MediatR;
+using NLog.Web;
 
 namespace Costify
 {
@@ -52,6 +53,10 @@ namespace Costify
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .ConfigureLogging(logging => {
+                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Information);
+                })
+                .UseNLog();
     }
 }
