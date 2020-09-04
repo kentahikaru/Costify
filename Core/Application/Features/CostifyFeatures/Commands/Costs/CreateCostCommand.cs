@@ -7,10 +7,10 @@ using Core.Domain.Entities;
 
 namespace Core.Application.Features.CostifyFeatures.Commands.Costs
 {
-    public  class CreateCostCommand : IRequest<int>
+    public  class CreateCostCommand : IRequest<Guid>
     {
         public Cost cost { get;set; }
-        public class CreateCostCommandHandler : IRequestHandler<CreateCostCommand, int>
+        public class CreateCostCommandHandler : IRequestHandler<CreateCostCommand, Guid>
         {
             //ICostifyDbContext _context;
             ICostRepository _repository;
@@ -20,11 +20,12 @@ namespace Core.Application.Features.CostifyFeatures.Commands.Costs
                 _repository = repository;
             }
 
-            public async Task<int> Handle(CreateCostCommand command, CancellationToken cancellationToken)
+            public async Task<Guid> Handle(CreateCostCommand command, CancellationToken cancellationToken)
             {
                 command.cost.Id = Guid.NewGuid();
                 _repository.Add(command.cost);
-                return await _repository.SaveChangesAsync();
+                await _repository.SaveChangesAsync();
+                return command.cost.Id;
             }
         }
     }

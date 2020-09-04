@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{FD782C87-0ED4-44B9-9180-544FEB859D7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Costify.Api", "Presentation\Costify.Api\Costify.Api.csproj", "{CE81F48A-947B-49DA-930A-27A5087D5024}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,11 +42,18 @@ Global
 		{0241849B-BCC3-481C-929D-7F81A9F16675}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0241849B-BCC3-481C-929D-7F81A9F16675}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0241849B-BCC3-481C-929D-7F81A9F16675}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE81F48A-947B-49DA-930A-27A5087D5024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE81F48A-947B-49DA-930A-27A5087D5024}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE81F48A-947B-49DA-930A-27A5087D5024}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE81F48A-947B-49DA-930A-27A5087D5024}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7D53E5F-4FFE-4710-8CBB-884BBD12BB78}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CE81F48A-947B-49DA-930A-27A5087D5024} = {FD782C87-0ED4-44B9-9180-544FEB859D7F}
 	EndGlobalSection
 EndGlobal

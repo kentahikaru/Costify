@@ -4,8 +4,9 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
-            "name": ".NET Core Launch (web)",
+            "name": "Costify local WEB",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -24,6 +25,28 @@
                 "/Views": "${workspaceFolder}/Views"
             }
         },
+
+        {
+            "name": "Costify local API",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Presentation/Costify.Api/bin/Debug/netcoreapp3.1/Costify.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Presentation/Costify.Api",
+            "stopAtEntry": false,
+            // "serverReadyAction": {
+            //     "action": "openExternally",
+            //     "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            // },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+
         {
             "name": ".NET Core Attach",
             "type": "coreclr",
