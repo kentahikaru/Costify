@@ -50,6 +50,9 @@ namespace Costify
                         options.BlobName = "log.txt";
                     })
                 )
+                .ConfigureAppConfiguration((hostingContext, config) => {
+                    config.AddEnvironmentVariables(prefix: "Costify_");
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
