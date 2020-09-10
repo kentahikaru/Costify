@@ -12,7 +12,8 @@ namespace Infrastructure.Persistance
         public static void AddPersistance(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<CostifyDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("AzureCostify")));
+            //options.UseSqlServer(configuration.GetConnectionString("AzureCostify")));
+            options.UseSqlServer(configuration["ConnectionStrings:AzureCostify"]));
             services.AddScoped<ICostifyDbContext>(provider => provider.GetService<CostifyDbContext>());
 
             services.AddTransient(typeof(IGenericRepository<>),typeof(GenericRepository<>));

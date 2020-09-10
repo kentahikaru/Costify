@@ -18,6 +18,14 @@ namespace Costify.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) => {
+                    config.AddEnvironmentVariables(prefix: "Costify_");
+                    
+                    if(hostingContext.HostingEnvironment.IsDevelopment())
+                    {
+                        config.AddUserSecrets<Program>();
+                    }
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

@@ -1,9 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>be653d30-a253-43d4-9f30-67696cb31e51</UserSecretsId>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="MediatR" Version="8.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.5" />
@@ -21,7 +21,6 @@
     <PackageReference Include="nlog" Version="4.7.4" />
     <PackageReference Include="NLog.web.aspnetcore" Version="4.9.3" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Application\Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Persistance\Persistance.csproj" />
@@ -29,5 +28,4 @@
   <ItemGroup>
     <Content Update="nlog.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-
 </Project>

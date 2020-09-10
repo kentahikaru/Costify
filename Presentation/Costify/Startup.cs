@@ -42,6 +42,8 @@ namespace Costify
         {
             var asd = new EnvironmentVariablesConfigurationProvider();
             asd.Load();
+            var test1 = Environment.GetEnvironmentVariable("Costify_TestVar");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

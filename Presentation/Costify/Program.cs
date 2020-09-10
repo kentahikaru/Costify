@@ -52,6 +52,11 @@ namespace Costify
                 )
                 .ConfigureAppConfiguration((hostingContext, config) => {
                     config.AddEnvironmentVariables(prefix: "Costify_");
+                    
+                    if(hostingContext.HostingEnvironment.IsDevelopment())
+                    {
+                        config.AddUserSecrets<Program>();
+                    }
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
