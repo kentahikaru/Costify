@@ -1,0 +1,23 @@
+# https://hub.docker.com/_/microsoft-dotnet-core
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
+WORKDIR /source
+
+# copy csproj and restore as distinct layers
+COPY *.sln .
+COPY Core/Application/*.csproj ./Core/Application
+COPY Core/Domain/*.csproj ./Core/Domain
+COPY Infrastructure/Persistance/*.csproj ./Infrastructure/Persistance
+COPY Presentation/Costify/*.csproj ./Presentation/Costify
+COPY Presentation/Costify.Api/*.csproj ./Presentation/Costify.Api
+RUN dotnet restore
+
+# copy everything else and build app
+COPY . .
+WORKDIR /source/Presentation/Costify
+RUN dotnet publish -c Release -o /app
+
+# final stage/image
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim-arm32v7
+WORKDIR /app
+COPY --from=build /app ./
+ENTRYPOINT ["dotnet", "Costify.dll"]
