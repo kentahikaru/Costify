@@ -13,9 +13,10 @@ namespace Infrastructure.Persistance
         {
             services.AddDbContext<CostifyDbContext>(options =>
             //options.UseSqlServer(configuration.GetConnectionString("AzureCostify")));
-            options.UseSqlServer(configuration["ConnectionStrings:AzureCostify"]));
-            services.AddScoped<ICostifyDbContext>(provider => provider.GetService<CostifyDbContext>());
+            // options.UseSqlServer(configuration["ConnectionStrings:AzureCostify"]));
+            options.UseSqlite(configuration["ConnectionStrings:local"]));
 
+            services.AddScoped<ICostifyDbContext>(provider => provider.GetService<CostifyDbContext>());
             services.AddTransient(typeof(IGenericRepository<>),typeof(GenericRepository<>));
             services.AddTransient<ICostRepository,CostRepository>();
             services.AddTransient<ICategoryRepository,CategoryReposoitory>();
